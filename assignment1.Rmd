@@ -1,0 +1,22 @@
+## Overview
+The article compares the ages of both Senators and Representatives from 1919 to 2023. The primary findings indicate that the average ages in both houses have increased by several years. The primary explanation behind this is the size and relative longevity of the Baby Boomer generation in particular.
+The article can be found [here](https://fivethirtyeight.com/features/aging-congress-boomers/), and the data used for the article can be found [here](https://github.com/fivethirtyeight/data/tree/master/congress-demographics).
+
+### Importing data
+```r
+d1<-read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/refs/heads/master/congress-demographics/data_aging_congress.csv", header=TRUE, sep=",")
+```
+### Recoding dummy variables
+Party membership was represented by dummy codes which would not be understandable without access to the directory.
+```r
+d1$party_code[d1$party_code==100]<-"Democrat"
+d1$party_code[d1$party_code==200]<-"Republican"
+d1$party_code[d1$party_code==328]<-"Independent"
+```
+### Cutting redundant or less important variables
+The Bioguide ID is a unique identifier that is redundant given the inclusion of the member's name in our dataset. start_date and congress also both measure the beginning of the term, so only one would be needed.
+```r
+d2<-subset(d1, select = -c(start_date, bioguide_id))
+```
+## Conclusions
+Since this data does not include the current Congress, a clear next step would be to incorporate the data of its members' ages and see if trends continued. Furthermore, the data begins with the Congress of 1919. The reasoning the author gives is the change in how senators are elected after the ratification of the 17th Amendment. If we were to focus solely on the House of Representatives, it would make sense to incorporate earlier members and we could investigate the trends of even earlier generations.
